@@ -208,10 +208,16 @@ int main( int argc, char *argv[] )
     int opt_offset=parse_options( argc, argv );
 
     if( opt_offset<0 ) {
-        // There was some error
-        fprintf(stderr, "Use \"sshpass -h\" to get help\n");
+        int error = opt_offset + 1; // -1 becomes 0, -2 becomes 1 etc.
+        if (error == RETURN_NOERROR) {
+            show_help();
 
-        return -(opt_offset+1); // -1 becomes 0, -2 becomes 1 etc.
+        } else {
+            // There was some error
+            fprintf(stderr, "Use \"sshpass -h\" to get help\n");
+        }
+
+        return -error;
     }
 
     if( argc-opt_offset<1 ) {
