@@ -234,6 +234,7 @@ static int masterpt;
 int childpid;
 int termsig;
 
+void term_child(int signum);
 int runprogram( int argc, char *argv[] )
 {
     struct winsize ttysize; // The size of our tty
@@ -580,7 +581,7 @@ void term_handler(int signum)
     termsig = signum;
 }
 
-void term_child(int signum);
+void term_child(int signum)
 {
     fflush(stdout);
     switch(signum) {
